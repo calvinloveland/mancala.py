@@ -8,12 +8,12 @@ class board:
     game_over = False
 
     def __init__(self, board=None, move=None):
-        if board != None:
+        if board is not None:
             self.mancala = copy.deepcopy(board.mancala)
             self.marbles = copy.deepcopy(board.marbles)
             self.player2_turn = copy.deepcopy(board.player2_turn)
             self.game_over = copy.deepcopy(board.game_over)
-            if move != None:
+            if move is not None:
                 self.execute_turn(move)
 
     def execute_turn(self, n):
@@ -42,10 +42,10 @@ class board:
                     self.marbles[int(not current_player)][j] = 0
         if sum(self.marbles[0]) == 0:
             self.game_over = True
-            self.mancala[1] = sum(self.marbles[1])
+            self.mancala[1] += sum(self.marbles[1])
         elif sum(self.marbles[1]) == 0:
             self.game_over = True
-            self.mancala[0] = sum(self.marbles[1])
+            self.mancala[0] += sum(self.marbles[1])
         if switch_turns:
             self.player2_turn = not self.player2_turn
 
