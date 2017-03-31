@@ -8,7 +8,7 @@ def alpha_beta(board_arg, depth, alpha, beta, player):
             if board_arg.mancala[int(player)] > board_arg.mancala[int(not player)]:
                 return [500, -1]
             return [-500, -1]
-        return [board_arg.mancala[int(player)] - board_arg.mancala[int(not player)], -1]
+        return [(board_arg.mancala[int(player)] - board_arg.mancala[int(not player)]) + (sum(board_arg.marbles[int(player)]) - sum(board_arg.marbles[int(not player)])), -1]
     if player == board_arg.player2_turn:
         v = [-10000, -1]
         best_score = -10000
@@ -21,6 +21,8 @@ def alpha_beta(board_arg, depth, alpha, beta, player):
                 v[1] = i
             if beta <= alpha:
                 break
+            #if depth == 4:
+                #new_board.print_board()
         return v
     else:
         v = [10000, -1]
@@ -30,8 +32,18 @@ def alpha_beta(board_arg, depth, alpha, beta, player):
             beta = min(beta, v[0])
             if beta <= alpha:
                 break
+            #if depth == 3:
+                #new_board.print_board()
         return v
 
+'''
+testing_board = board.board()
+testing_board.mancala = [3,5]
+testing_board.marbles = [[3,9,10,11,2,3],[0,0,0,0,0,1]]
+alpha_beta(testing_board,4,-1000,1000,False)
+print("DING")
+input()
+'''
 
 clean_board = board.board()
 wins = [0,0]
@@ -42,13 +54,13 @@ for i in range(100):
 
     while not current_board.game_over:
         if not current_board.player2_turn:
-            ab_result = alpha_beta(current_board, 8, -1000, 1000, False)
+            ab_result = alpha_beta(current_board, 9, -1000, 1000, False)
             print(ab_result)
             current_board.execute_turn(ab_result[1])
         else:
-            move = random.randint(0,5)
+            move = (int(input('Your move madam?:'))-1)
             while current_board.marbles[1][move] == 0:
-                move = ((move + 1) % 6)
+                  move = (int(input('Your move madam?:'))-1)
             current_board.execute_turn(move)
         current_board.print_board()
     if current_board.mancala[0] < current_board.mancala[1]:
