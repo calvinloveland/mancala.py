@@ -67,6 +67,7 @@ while True:
     else:
         print('AI level? (1-9)')
         player2_level = int(input())
+    current_board.print_board()
     while not current_board.game_over:
         if not current_board.player2_turn:
             if player1AI:
